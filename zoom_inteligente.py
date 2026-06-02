@@ -4,7 +4,7 @@ import pyautogui
 from screeninfo import get_monitors
 from rich import print
 
-appli_com_video= ["Youtube", "Netflix","Twich","'Globoplay","Prime Video","Stremio","Curso em Video"]
+appli_com_video= ["Youtube", "Netflix","Twitch","Globoplay","Prime Video","Stremio","Curso em Video"]
 cliques_zoom= 4
 
 
