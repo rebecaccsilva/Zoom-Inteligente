@@ -19,7 +19,7 @@ def largura_da_tela():
 
 
 def checar_e_ajustar_zoom():
-    largura_tela= largura_da_tela
+    largura_tela= largura_da_tela()
     largura_metade= largura_da_tela/2
 
     zoom_aplicado=False
