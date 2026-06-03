@@ -4,16 +4,16 @@ import pyautogui
 from screeninfo import get_monitors
 
 appli_com_video = [
-    "Youtube",
-    "Netflix",
-    "Twitch",
-    "Globoplay",
-    "Prime Video",
-    "Stremio",
-    "Curso em Video",
-    "curso",
-    "aula",
-    "python",
+    "youtube",
+    "netflix",
+    "twitch",
+    "globoplay",
+    "prime video",
+    "stremio",
+    "curso em video", 
+    "curso em vídeo",  
+    "curso de python",  
+    "aula de python",   
     "video"
 ]
 
@@ -24,7 +24,9 @@ programas_para_ignorar = [
     "cmd",
     "explorador de arquivos",
     "bloco de notas",
-    "minecraft"
+    "minecraft",
+    "code",
+    "launcher"
 ]
 cliques_zoom = 4
 
@@ -54,18 +56,27 @@ def checar_e_ajustar_zoom():
                 titulo = janela_ativa.title.lower()
                 largura_janela = janela_ativa.width
 
-                eh_programa_de_codigo = any(
+                eh_programa_para_ignorar = any(
                     prog in titulo for prog in programas_para_ignorar
                 )
+                
+                if eh_programa_para_ignorar:
+                    if zoom_aplicado:
+                        pyautogui.hotkey("ctrl","0")
+                        time.sleep(0.15)
+                        pyautogui.hotkey("ctrl", "-")
+                        zoom_aplicado = False
+                    time.sleep(1.5)
+                    continue
 
-                if not eh_programa_de_codigo:
-                    # Verifica se a janela está dividida (com margem de erro de 100px)
-                    esta_na_metade = abs(largura_janela - largura_metade) < 100
+            
+                # Verifica se a janela está dividida (com margem de erro de 100px)
+                esta_na_metade = abs(largura_janela - largura_metade) < 100
 
-                    # Verifica se o título da janela corresponde a um vídeo
-                    tem_video = any(
-                        palavra.lower() in titulo for palavra in appli_com_video
-                    )
+                # Verifica se o título da janela corresponde a um vídeo
+                tem_video = any(
+                    palavra in titulo for palavra in appli_com_video
+                )
 
                 # Aplica a lógica de automação
                 if esta_na_metade and tem_video and not zoom_aplicado:
