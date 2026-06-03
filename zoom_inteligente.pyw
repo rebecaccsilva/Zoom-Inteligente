@@ -24,6 +24,7 @@ programas_para_ignorar = [
     "cmd",
     "explorador de arquivos",
     "bloco de notas",
+    "minecraft"
 ]
 cliques_zoom = 4
 
