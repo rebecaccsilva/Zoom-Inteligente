@@ -2,7 +2,6 @@ import time
 import pygetwindow as gw
 import pyautogui
 from screeninfo import get_monitors
-from rich import print
 
 appli_com_video = [
     "Youtube",
@@ -12,8 +11,19 @@ appli_com_video = [
     "Prime Video",
     "Stremio",
     "Curso em Video",
-    "curso de ",
-    "aula"
+    "curso",
+    "aula",
+    "python",
+    "video"
+]
+
+programas_para_ignorar = [
+    "visual studio code",
+    "vscode",
+    "prompt de comando",
+    "cmd",
+    "explorador de arquivos",
+    "bloco de notas",
 ]
 cliques_zoom = 4
 
@@ -34,37 +44,36 @@ def checar_e_ajustar_zoom():
 
     zoom_aplicado = False
 
-    print(":robot: Script Iniciado. Monitorando suas janelas...")
-
     while True:
         try:
             # Pega a janela que está em primeiro plano (ativa)
             janela_ativa = gw.getActiveWindow()
 
             if janela_ativa is not None and janela_ativa.title != "":
-                titulo = janela_ativa.title
+                titulo = janela_ativa.title.lower()
                 largura_janela = janela_ativa.width
 
-                # Verifica se a janela está dividida (com margem de erro de 100px)
-                esta_na_metade = abs(largura_janela - largura_metade) < 100
-
-                # Verifica se o título da janela corresponde a um vídeo
-                tem_video = any(
-                    palavra.lower() in titulo.lower() for palavra in appli_com_video
+                eh_programa_de_codigo = any(
+                    prog in titulo for prog in programas_para_ignorar
                 )
+
+                if not eh_programa_de_codigo:
+                    # Verifica se a janela está dividida (com margem de erro de 100px)
+                    esta_na_metade = abs(largura_janela - largura_metade) < 100
+
+                    # Verifica se o título da janela corresponde a um vídeo
+                    tem_video = any(
+                        palavra.lower() in titulo for palavra in appli_com_video
+                    )
 
                 # Aplica a lógica de automação
                 if esta_na_metade and tem_video and not zoom_aplicado:
-                    print(
-                        f":clapper_board: Vídeo detectado na metade da tela: '{titulo}'. Ajustando o zoom..."
-                    )
 
                     # Reseta o zoom para o padrão (Ctrl + 0)
                     pyautogui.hotkey("ctrl", "0")
                     time.sleep(0.2)
                     pyautogui.hotkey("ctrl", "-")
                     time.sleep(0.15)
-                    
 
                     # Aplica o zoom out (Ctrl + -) a quantidade de vezes configurada
                     for _ in range(cliques_zoom):
@@ -80,7 +89,7 @@ def checar_e_ajustar_zoom():
                     )
                     pyautogui.hotkey("ctrl", "0")
                     time.sleep(0.15)
-                    pyautogui.hotkey("ctrl","-")
+                    pyautogui.hotkey("ctrl", "-")
                     zoom_aplicado = False
 
         except Exception as e:
